@@ -1,0 +1,5 @@
+docker build . -t name
+docker-compose up -d --build
+docker-compose exec db psql --username=shalchian --dbname=web_backend
+docker-compose exec web python manage.py migrate --noinput
+docker-compose exec web python manage.py createsuperuser
