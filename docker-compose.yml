@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  front:
+    build: ./web-project-front
+    command: npm start --force
+
+    volumes:
+      - ./web-project-front/:/usr/src/web-project-front/
+    ports:
+      - 3000:3000
+    env_file:
+      - ./web-project-front/.env
+    restart: always
   web:
     build: ./web_backend/
     command: python manage.py runserver 0.0.0.0:8000
@@ -12,18 +23,35 @@ services:
       - ./web_backend/.env.dev
 
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: always
 
 
   db:
     image: postgres:16
     volumes:
-      - ./postgres_data/:/var/lib/postgresql/data/
+      - ./postgres_data/:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=shalchian
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=web_backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+      - front
 
 volumes:
   postgres_data:
+  web_backend:
