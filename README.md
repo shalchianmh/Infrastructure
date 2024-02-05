@@ -11,7 +11,7 @@ Pizzato is a Django-based web application where you can make your custom pizza u
 > To run all services of this projcet clone back, front and Infrastructure together and put back and front project in infrastructure project.
 > Back: https://github.com/shalchianmh/web_backend \
 > Front: https://github.com/shalchianmh/Infrastructure \
-> infrastructure: https://github.com/Ali-Sadeghi-Gh/web-project-front \
+> infrastructure: https://github.com/Ali-Sadeghi-Gh/web-project-front 
 
 To deploy this project after cloning it from Git Hub(you shuold clone web_backend and web-project-front separately), you must build docker images and run them. Since we use `docker-compose`.
 you can just run the below instruction to run all the project services together:
